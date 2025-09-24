@@ -73,6 +73,20 @@ class TableExtractor:
 
         return constructed_header
 
+    def _columns_match(self, boundaries1: List[float], boundaries2: List[float]) -> bool:
+        """
+        Check if two sets of column boundaries are similar enough to share headers.
+        """
+        if len(boundaries1) != len(boundaries2):
+            return False
+
+        # Check if boundaries are within 30px of each other
+        for b1, b2 in zip(boundaries1, boundaries2):
+            if abs(b1 - b2) > 30:
+                return False
+
+        return True
+
     def _construct_header_from_aligned_text(self, all_rows: List[List[Dict]], table: List[List[Dict]],
                                            column_boundaries: List[float], table_y: float) -> List[Dict]:
         """
@@ -195,12 +209,26 @@ class TableExtractor:
             data_tables = self._group_rows_into_tables(data_rows)
 
             # Step 4: Match headers with tables and create HTML
+            last_header = None
+            last_column_boundaries = None
+
             for table in data_tables:
                 # Detect column structure from this table
                 column_boundaries = self._detect_column_boundaries(table)
 
                 # Find matching header for this table (pass all rows for header construction)
                 matched_header = self._find_matching_header(header_rows, table, column_boundaries, rows)
+
+                # If no header found but columns match previous table, reuse last header
+                if not matched_header and last_header and last_column_boundaries:
+                    # Check if column structures are similar
+                    if self._columns_match(column_boundaries, last_column_boundaries):
+                        matched_header = last_header
+
+                # Store header for potential reuse
+                if matched_header:
+                    last_header = matched_header
+                    last_column_boundaries = column_boundaries
 
                 # Combine header with table if found
                 if matched_header:
@@ -311,27 +339,22 @@ class TableExtractor:
         # This ensures row labels are captured
         leftmost = round(min_x / 10) * 10
 
-        # Adaptive clustering - detect natural gaps in X positions
+        # Group nearby X positions to identify columns
         clusters = [leftmost]  # Start with leftmost position
-
-        # Calculate gaps between consecutive X positions to find natural column boundaries
-        gaps = []
-        for i in range(1, len(x_positions)):
-            gap = x_positions[i] - x_positions[i-1]
-            if gap > 20:  # Ignore tiny gaps
-                gaps.append(gap)
-
-        # Determine clustering threshold based on gap distribution
-        if gaps:
-            avg_gap = sum(gaps) / len(gaps)
-            # Use a threshold that's 60% of average gap, min 50px, max 200px
-            cluster_threshold = max(50, min(200, int(avg_gap * 0.6)))
-        else:
-            cluster_threshold = 50  # Default
-
-        logger.debug(f"Worker {self.worker_id}: Using cluster threshold {cluster_threshold}px based on gap analysis")
-
         current_cluster = []
+
+        # Dynamically determine threshold based on document type
+        # For wide financial statements, use larger threshold
+        # For dense tables, use smaller threshold
+        x_range = max(x_positions) - min(x_positions) if x_positions else 0
+
+        if x_range > 600:  # Wide document, likely financial statement
+            cluster_threshold = 100  # Larger threshold for wide columns
+        elif x_range > 400:
+            cluster_threshold = 70
+        else:
+            cluster_threshold = 50  # Smaller threshold for narrow tables
+
         for x in x_positions:
             # Skip if too close to leftmost (already included)
             if abs(x - leftmost) < cluster_threshold:
@@ -375,15 +398,15 @@ class TableExtractor:
 
     def _group_rows_into_tables(self, rows: List[List[Dict]]) -> List[List[List[Dict]]]:
         """
-        Group rows into logical tables based on vertical proximity AND column consistency.
-        Rows that are far apart or have different column structures likely belong to different tables.
+        Group rows into logical tables based on vertical proximity.
+        Rows that are far apart likely belong to different tables.
         """
         if not rows:
             return []
 
         tables = []
         current_table = [rows[0]]
-        table_gap_threshold = 60  # Increased to 60px - more tolerant of spacing
+        table_gap_threshold = 50  # Rows more than 50px apart are different tables
 
         for i in range(1, len(rows)):
             current_row = rows[i]
@@ -393,21 +416,19 @@ class TableExtractor:
             current_y = (current_row[0]['bbox'][0][1] + current_row[0]['bbox'][2][1]) / 2
             prev_y = (prev_row[0]['bbox'][0][1] + prev_row[0]['bbox'][2][1]) / 2
 
-            # Check if rows have similar column structure (similar number of blocks)
-            similar_structure = abs(len(current_row) - len(prev_row)) <= 2
-
-            if current_y - prev_y <= table_gap_threshold and similar_structure:
+            # Group by proximity only - don't check column structure as it varies in financial tables
+            if current_y - prev_y <= table_gap_threshold:
                 current_table.append(current_row)
             else:
                 # Start new table
-                if len(current_table) >= 3:  # Require at least 3 rows for a valid table
-                    # Validate it's actually a table (has some multi-column rows)
+                if len(current_table) >= 1:  # Allow single-row tables
+                    # Validate it's actually a table (has some multi-column rows or numbers)
                     if self._validate_table_structure(current_table):
                         tables.append(current_table)
                 current_table = [current_row]
 
         # Add last table
-        if len(current_table) >= 3 and self._validate_table_structure(current_table):
+        if len(current_table) >= 1 and self._validate_table_structure(current_table):
             tables.append(current_table)
 
         return tables
@@ -419,13 +440,25 @@ class TableExtractor:
         - At least some rows with multiple columns OR
         - Numeric content indicating financial data
         """
-        # Count rows with multiple blocks
+        # Single-row tables are OK if they have multiple columns or numbers
+        if len(table_rows) == 1:
+            row = table_rows[0]
+            # Accept if it has multiple columns
+            if len(row) >= 2:
+                return True
+            # Or if it has numeric content (like a total)
+            for block in row:
+                if any(c.isdigit() for c in block['text']):
+                    return True
+            return False
+
+        # For multi-row tables
         multi_column_rows = sum(1 for row in table_rows if len(row) >= 2)
 
-        # More lenient: at least 20% of rows should have multiple columns
-        # This allows for financial statements where many rows are just labels
-        if multi_column_rows < len(table_rows) * 0.2:
-            # But if it has strong numeric content, still accept it
+        # At least 1 row should have multiple columns
+        # Or have significant numeric content
+        if multi_column_rows == 0:
+            # Check for numeric content
             num_rows_with_numbers = 0
             for row in table_rows:
                 for block in row:
@@ -433,7 +466,7 @@ class TableExtractor:
                         num_rows_with_numbers += 1
                         break
 
-            # If at least 30% of rows have numbers, it's likely a financial table
+            # If less than 30% of rows have numbers, not a table
             if num_rows_with_numbers < len(table_rows) * 0.3:
                 return False
 
