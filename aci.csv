@@ -1,0 +1,559 @@
+Filtrer,Valeurs sélectionnées,,,
+Nom de l’abonnement,Microsoft Azure Sponsorship (422a9b67-fada-4b84-9004-70a0a160bab4)
+ID d’abonnement,422a9b67-fada-4b84-9004-70a0a160bab4
+Liste déroulante des fournisseurs,Azure Container Instances
+Liste déroulante des régions,"Australia Central, Australia Central 2, Australia East, Australia Southeast, Austria East, Brazil South, Brazil Southeast, Brazil US, Canada Central, Canada East, Central India, Central US, Central US EUAP, Chile Central, East Asia, East US, East US 2, East US 2 EUAP, East US STG, France Central, France South, Germany North, Germany West Central, Indonesia Central, Israel Central, Italy North, Japan East, Japan West, Jio India Central, Jio India West, Korea Central, Korea South, Malaysia West, Mexico Central, New Zealand North, North Central US, North Europe, Norway East, Norway West, Poland Central, Qatar Central, South Africa North, South Africa West, South Central US, South Central US STG, South India, Southeast Asia, Spain Central, Sweden Central, Switzerland North, Switzerland West, UAE Central, UAE North, UK South, UK West, West Central US, West Europe, West India, West US, West US 2, West US 3"
+Afficher par utilisation,Tout afficher
+Date et heure de génération du rapport,"Sept 24, 2025 21:49:24"
+
+Quota,Région,Utilisation,Limite actuelle,Utilisation%
+Groupes de conteneurs,Australia Central,0,100,0%
+Standard Cores,Australia Central,0,500,0%
+Standard Spot Cores,Australia Central,0,0,0%
+Standard K80 Cores,Australia Central,0,48,0%
+Standard P100 Cores,Australia Central,0,0,0%
+Standard V100 Cores,Australia Central,0,0,0%
+Dedicated Container Groups,Australia Central,0,0,0%
+Dedicated Cores,Australia Central,0,0,0%
+Dedicated Container Groups,Australia Central,0,100,0%
+Dedicated Cores,Australia Central,0,500,0%
+Groupes de conteneurs,Australia Central 2,0,100,0%
+Standard Cores,Australia Central 2,0,500,0%
+Standard Spot Cores,Australia Central 2,0,0,0%
+Standard K80 Cores,Australia Central 2,0,48,0%
+Standard P100 Cores,Australia Central 2,0,0,0%
+Standard V100 Cores,Australia Central 2,0,0,0%
+Dedicated Container Groups,Australia Central 2,0,0,0%
+Dedicated Cores,Australia Central 2,0,0,0%
+Dedicated Container Groups,Australia Central 2,0,100,0%
+Dedicated Cores,Australia Central 2,0,500,0%
+Groupes de conteneurs,Australia East,0,100,0%
+Standard Cores,Australia East,0,500,0%
+Standard Spot Cores,Australia East,0,0,0%
+Standard K80 Cores,Australia East,0,48,0%
+Standard P100 Cores,Australia East,0,0,0%
+Standard V100 Cores,Australia East,0,0,0%
+Dedicated Container Groups,Australia East,0,0,0%
+Dedicated Cores,Australia East,0,0,0%
+Dedicated Container Groups,Australia East,0,100,0%
+Dedicated Cores,Australia East,0,500,0%
+Groupes de conteneurs,Australia Southeast,0,100,0%
+Standard Cores,Australia Southeast,0,500,0%
+Standard Spot Cores,Australia Southeast,0,0,0%
+Standard K80 Cores,Australia Southeast,0,48,0%
+Standard P100 Cores,Australia Southeast,0,0,0%
+Standard V100 Cores,Australia Southeast,0,0,0%
+Dedicated Container Groups,Australia Southeast,0,0,0%
+Dedicated Cores,Australia Southeast,0,0,0%
+Dedicated Container Groups,Australia Southeast,0,100,0%
+Dedicated Cores,Australia Southeast,0,500,0%
+Groupes de conteneurs,Austria East,0,100,0%
+Standard Cores,Austria East,0,500,0%
+Standard Spot Cores,Austria East,0,0,0%
+Standard K80 Cores,Austria East,0,48,0%
+Standard P100 Cores,Austria East,0,0,0%
+Standard V100 Cores,Austria East,0,0,0%
+Dedicated Container Groups,Austria East,0,0,0%
+Dedicated Cores,Austria East,0,0,0%
+Dedicated Container Groups,Austria East,0,100,0%
+Dedicated Cores,Austria East,0,500,0%
+Groupes de conteneurs,Brazil South,0,100,0%
+Standard Cores,Brazil South,0,500,0%
+Standard Spot Cores,Brazil South,0,0,0%
+Standard K80 Cores,Brazil South,0,48,0%
+Standard P100 Cores,Brazil South,0,0,0%
+Standard V100 Cores,Brazil South,0,0,0%
+Dedicated Container Groups,Brazil South,0,0,0%
+Dedicated Cores,Brazil South,0,0,0%
+Dedicated Container Groups,Brazil South,0,100,0%
+Dedicated Cores,Brazil South,0,500,0%
+Groupes de conteneurs,Brazil Southeast,0,100,0%
+Standard Cores,Brazil Southeast,0,500,0%
+Standard Spot Cores,Brazil Southeast,0,0,0%
+Standard K80 Cores,Brazil Southeast,0,48,0%
+Standard P100 Cores,Brazil Southeast,0,0,0%
+Standard V100 Cores,Brazil Southeast,0,0,0%
+Dedicated Container Groups,Brazil Southeast,0,0,0%
+Dedicated Cores,Brazil Southeast,0,0,0%
+Dedicated Container Groups,Brazil Southeast,0,100,0%
+Dedicated Cores,Brazil Southeast,0,500,0%
+Groupes de conteneurs,Canada Central,0,100,0%
+Standard Cores,Canada Central,0,500,0%
+Standard Spot Cores,Canada Central,0,0,0%
+Standard K80 Cores,Canada Central,0,48,0%
+Standard P100 Cores,Canada Central,0,0,0%
+Standard V100 Cores,Canada Central,0,0,0%
+Dedicated Container Groups,Canada Central,0,0,0%
+Dedicated Cores,Canada Central,0,0,0%
+Dedicated Container Groups,Canada Central,0,100,0%
+Dedicated Cores,Canada Central,0,500,0%
+Groupes de conteneurs,Canada East,0,100,0%
+Standard Cores,Canada East,0,500,0%
+Standard Spot Cores,Canada East,0,0,0%
+Standard K80 Cores,Canada East,0,48,0%
+Standard P100 Cores,Canada East,0,0,0%
+Standard V100 Cores,Canada East,0,0,0%
+Dedicated Container Groups,Canada East,0,0,0%
+Dedicated Cores,Canada East,0,0,0%
+Dedicated Container Groups,Canada East,0,100,0%
+Dedicated Cores,Canada East,0,500,0%
+Groupes de conteneurs,Central India,0,100,0%
+Standard Cores,Central India,0,500,0%
+Standard Spot Cores,Central India,0,0,0%
+Standard K80 Cores,Central India,0,48,0%
+Standard P100 Cores,Central India,0,0,0%
+Standard V100 Cores,Central India,0,0,0%
+Dedicated Container Groups,Central India,0,0,0%
+Dedicated Cores,Central India,0,0,0%
+Dedicated Container Groups,Central India,0,100,0%
+Dedicated Cores,Central India,0,500,0%
+Groupes de conteneurs,Central US,0,100,0%
+Standard Cores,Central US,0,500,0%
+Standard Spot Cores,Central US,0,0,0%
+Standard K80 Cores,Central US,0,48,0%
+Standard P100 Cores,Central US,0,0,0%
+Standard V100 Cores,Central US,0,0,0%
+Dedicated Container Groups,Central US,0,0,0%
+Dedicated Cores,Central US,0,0,0%
+Dedicated Container Groups,Central US,0,100,0%
+Dedicated Cores,Central US,0,500,0%
+Groupes de conteneurs,Chile Central,0,100,0%
+Standard Cores,Chile Central,0,500,0%
+Standard Spot Cores,Chile Central,0,0,0%
+Standard K80 Cores,Chile Central,0,48,0%
+Standard P100 Cores,Chile Central,0,0,0%
+Standard V100 Cores,Chile Central,0,0,0%
+Dedicated Container Groups,Chile Central,0,0,0%
+Dedicated Cores,Chile Central,0,0,0%
+Dedicated Container Groups,Chile Central,0,100,0%
+Dedicated Cores,Chile Central,0,500,0%
+Groupes de conteneurs,East Asia,0,100,0%
+Standard Cores,East Asia,0,500,0%
+Standard Spot Cores,East Asia,0,0,0%
+Standard K80 Cores,East Asia,0,48,0%
+Standard P100 Cores,East Asia,0,0,0%
+Standard V100 Cores,East Asia,0,0,0%
+Dedicated Container Groups,East Asia,0,0,0%
+Dedicated Cores,East Asia,0,0,0%
+Dedicated Container Groups,East Asia,0,100,0%
+Dedicated Cores,East Asia,0,500,0%
+Groupes de conteneurs,East US,0,100,0%
+Standard Cores,East US,0,500,0%
+Standard Spot Cores,East US,0,0,0%
+Standard K80 Cores,East US,0,48,0%
+Standard P100 Cores,East US,0,0,0%
+Standard V100 Cores,East US,0,0,0%
+Dedicated Container Groups,East US,0,0,0%
+Dedicated Cores,East US,0,0,0%
+Dedicated Container Groups,East US,0,100,0%
+Dedicated Cores,East US,0,500,0%
+Groupes de conteneurs,East US 2,0,100,0%
+Standard Cores,East US 2,0,500,0%
+Standard Spot Cores,East US 2,0,0,0%
+Standard K80 Cores,East US 2,0,48,0%
+Standard P100 Cores,East US 2,0,0,0%
+Standard V100 Cores,East US 2,0,0,0%
+Dedicated Container Groups,East US 2,0,0,0%
+Dedicated Cores,East US 2,0,0,0%
+Dedicated Container Groups,East US 2,0,100,0%
+Dedicated Cores,East US 2,0,500,0%
+Groupes de conteneurs,France Central,0,100,0%
+Standard Cores,France Central,0,500,0%
+Standard Spot Cores,France Central,0,0,0%
+Standard K80 Cores,France Central,0,48,0%
+Standard P100 Cores,France Central,0,0,0%
+Standard V100 Cores,France Central,0,0,0%
+Dedicated Container Groups,France Central,0,0,0%
+Dedicated Cores,France Central,0,0,0%
+Dedicated Container Groups,France Central,0,100,0%
+Dedicated Cores,France Central,0,500,0%
+Groupes de conteneurs,Germany North,0,100,0%
+Standard Cores,Germany North,0,500,0%
+Standard Spot Cores,Germany North,0,0,0%
+Standard K80 Cores,Germany North,0,48,0%
+Standard P100 Cores,Germany North,0,0,0%
+Standard V100 Cores,Germany North,0,0,0%
+Dedicated Container Groups,Germany North,0,0,0%
+Dedicated Cores,Germany North,0,0,0%
+Dedicated Container Groups,Germany North,0,100,0%
+Dedicated Cores,Germany North,0,500,0%
+Groupes de conteneurs,Germany West Central,0,100,0%
+Standard Cores,Germany West Central,0,500,0%
+Standard Spot Cores,Germany West Central,0,0,0%
+Standard K80 Cores,Germany West Central,0,48,0%
+Standard P100 Cores,Germany West Central,0,0,0%
+Standard V100 Cores,Germany West Central,0,0,0%
+Dedicated Container Groups,Germany West Central,0,0,0%
+Dedicated Cores,Germany West Central,0,0,0%
+Dedicated Container Groups,Germany West Central,0,100,0%
+Dedicated Cores,Germany West Central,0,500,0%
+Groupes de conteneurs,Indonesia Central,0,100,0%
+Standard Cores,Indonesia Central,0,500,0%
+Standard Spot Cores,Indonesia Central,0,0,0%
+Standard K80 Cores,Indonesia Central,0,48,0%
+Standard P100 Cores,Indonesia Central,0,0,0%
+Standard V100 Cores,Indonesia Central,0,0,0%
+Dedicated Container Groups,Indonesia Central,0,0,0%
+Dedicated Cores,Indonesia Central,0,0,0%
+Dedicated Container Groups,Indonesia Central,0,100,0%
+Dedicated Cores,Indonesia Central,0,500,0%
+Groupes de conteneurs,Israel Central,0,100,0%
+Standard Cores,Israel Central,0,500,0%
+Standard Spot Cores,Israel Central,0,0,0%
+Standard K80 Cores,Israel Central,0,48,0%
+Standard P100 Cores,Israel Central,0,0,0%
+Standard V100 Cores,Israel Central,0,0,0%
+Dedicated Container Groups,Israel Central,0,0,0%
+Dedicated Cores,Israel Central,0,0,0%
+Dedicated Container Groups,Israel Central,0,100,0%
+Dedicated Cores,Israel Central,0,500,0%
+Groupes de conteneurs,Italy North,0,100,0%
+Standard Cores,Italy North,0,500,0%
+Standard Spot Cores,Italy North,0,0,0%
+Standard K80 Cores,Italy North,0,48,0%
+Standard P100 Cores,Italy North,0,0,0%
+Standard V100 Cores,Italy North,0,0,0%
+Dedicated Container Groups,Italy North,0,0,0%
+Dedicated Cores,Italy North,0,0,0%
+Dedicated Container Groups,Italy North,0,100,0%
+Dedicated Cores,Italy North,0,500,0%
+Groupes de conteneurs,Japan East,0,100,0%
+Standard Cores,Japan East,0,500,0%
+Standard Spot Cores,Japan East,0,0,0%
+Standard K80 Cores,Japan East,0,48,0%
+Standard P100 Cores,Japan East,0,0,0%
+Standard V100 Cores,Japan East,0,0,0%
+Dedicated Container Groups,Japan East,0,0,0%
+Dedicated Cores,Japan East,0,0,0%
+Dedicated Container Groups,Japan East,0,100,0%
+Dedicated Cores,Japan East,0,500,0%
+Groupes de conteneurs,Japan West,0,100,0%
+Standard Cores,Japan West,0,500,0%
+Standard Spot Cores,Japan West,0,0,0%
+Standard K80 Cores,Japan West,0,48,0%
+Standard P100 Cores,Japan West,0,0,0%
+Standard V100 Cores,Japan West,0,0,0%
+Dedicated Container Groups,Japan West,0,0,0%
+Dedicated Cores,Japan West,0,0,0%
+Dedicated Container Groups,Japan West,0,100,0%
+Dedicated Cores,Japan West,0,500,0%
+Groupes de conteneurs,Jio India Central,0,100,0%
+Standard Cores,Jio India Central,0,500,0%
+Standard Spot Cores,Jio India Central,0,0,0%
+Standard K80 Cores,Jio India Central,0,48,0%
+Standard P100 Cores,Jio India Central,0,0,0%
+Standard V100 Cores,Jio India Central,0,0,0%
+Dedicated Container Groups,Jio India Central,0,0,0%
+Dedicated Cores,Jio India Central,0,0,0%
+Dedicated Container Groups,Jio India Central,0,100,0%
+Dedicated Cores,Jio India Central,0,500,0%
+Groupes de conteneurs,Jio India West,0,100,0%
+Standard Cores,Jio India West,0,500,0%
+Standard Spot Cores,Jio India West,0,0,0%
+Standard K80 Cores,Jio India West,0,48,0%
+Standard P100 Cores,Jio India West,0,0,0%
+Standard V100 Cores,Jio India West,0,0,0%
+Dedicated Container Groups,Jio India West,0,0,0%
+Dedicated Cores,Jio India West,0,0,0%
+Dedicated Container Groups,Jio India West,0,100,0%
+Dedicated Cores,Jio India West,0,500,0%
+Groupes de conteneurs,Korea Central,0,100,0%
+Standard Cores,Korea Central,0,500,0%
+Standard Spot Cores,Korea Central,0,0,0%
+Standard K80 Cores,Korea Central,0,48,0%
+Standard P100 Cores,Korea Central,0,0,0%
+Standard V100 Cores,Korea Central,0,0,0%
+Dedicated Container Groups,Korea Central,0,0,0%
+Dedicated Cores,Korea Central,0,0,0%
+Dedicated Container Groups,Korea Central,0,100,0%
+Dedicated Cores,Korea Central,0,500,0%
+Groupes de conteneurs,Korea South,0,100,0%
+Standard Cores,Korea South,0,500,0%
+Standard Spot Cores,Korea South,0,0,0%
+Standard K80 Cores,Korea South,0,48,0%
+Standard P100 Cores,Korea South,0,0,0%
+Standard V100 Cores,Korea South,0,0,0%
+Dedicated Container Groups,Korea South,0,0,0%
+Dedicated Cores,Korea South,0,0,0%
+Dedicated Container Groups,Korea South,0,100,0%
+Dedicated Cores,Korea South,0,500,0%
+Groupes de conteneurs,Malaysia West,0,100,0%
+Standard Cores,Malaysia West,0,500,0%
+Standard Spot Cores,Malaysia West,0,0,0%
+Standard K80 Cores,Malaysia West,0,48,0%
+Standard P100 Cores,Malaysia West,0,0,0%
+Standard V100 Cores,Malaysia West,0,0,0%
+Dedicated Container Groups,Malaysia West,0,0,0%
+Dedicated Cores,Malaysia West,0,0,0%
+Dedicated Container Groups,Malaysia West,0,100,0%
+Dedicated Cores,Malaysia West,0,500,0%
+Groupes de conteneurs,Mexico Central,0,100,0%
+Standard Cores,Mexico Central,0,500,0%
+Standard Spot Cores,Mexico Central,0,0,0%
+Standard K80 Cores,Mexico Central,0,48,0%
+Standard P100 Cores,Mexico Central,0,0,0%
+Standard V100 Cores,Mexico Central,0,0,0%
+Dedicated Container Groups,Mexico Central,0,0,0%
+Dedicated Cores,Mexico Central,0,0,0%
+Dedicated Container Groups,Mexico Central,0,100,0%
+Dedicated Cores,Mexico Central,0,500,0%
+Groupes de conteneurs,New Zealand North,0,100,0%
+Standard Cores,New Zealand North,0,500,0%
+Standard Spot Cores,New Zealand North,0,0,0%
+Standard K80 Cores,New Zealand North,0,48,0%
+Standard P100 Cores,New Zealand North,0,0,0%
+Standard V100 Cores,New Zealand North,0,0,0%
+Dedicated Container Groups,New Zealand North,0,0,0%
+Dedicated Cores,New Zealand North,0,0,0%
+Dedicated Container Groups,New Zealand North,0,100,0%
+Dedicated Cores,New Zealand North,0,500,0%
+Groupes de conteneurs,North Central US,0,100,0%
+Standard Cores,North Central US,0,500,0%
+Standard Spot Cores,North Central US,0,0,0%
+Standard K80 Cores,North Central US,0,48,0%
+Standard P100 Cores,North Central US,0,0,0%
+Standard V100 Cores,North Central US,0,0,0%
+Dedicated Container Groups,North Central US,0,0,0%
+Dedicated Cores,North Central US,0,0,0%
+Dedicated Container Groups,North Central US,0,100,0%
+Dedicated Cores,North Central US,0,500,0%
+Groupes de conteneurs,North Europe,0,100,0%
+Standard Cores,North Europe,0,500,0%
+Standard Spot Cores,North Europe,0,0,0%
+Standard K80 Cores,North Europe,0,48,0%
+Standard P100 Cores,North Europe,0,0,0%
+Standard V100 Cores,North Europe,0,0,0%
+Dedicated Container Groups,North Europe,0,0,0%
+Dedicated Cores,North Europe,0,0,0%
+Dedicated Container Groups,North Europe,0,100,0%
+Dedicated Cores,North Europe,0,500,0%
+Groupes de conteneurs,Norway East,0,100,0%
+Standard Cores,Norway East,0,500,0%
+Standard Spot Cores,Norway East,0,0,0%
+Standard K80 Cores,Norway East,0,48,0%
+Standard P100 Cores,Norway East,0,0,0%
+Standard V100 Cores,Norway East,0,0,0%
+Dedicated Container Groups,Norway East,0,0,0%
+Dedicated Cores,Norway East,0,0,0%
+Dedicated Container Groups,Norway East,0,100,0%
+Dedicated Cores,Norway East,0,500,0%
+Groupes de conteneurs,Norway West,0,100,0%
+Standard Cores,Norway West,0,500,0%
+Standard Spot Cores,Norway West,0,0,0%
+Standard K80 Cores,Norway West,0,48,0%
+Standard P100 Cores,Norway West,0,0,0%
+Standard V100 Cores,Norway West,0,0,0%
+Dedicated Container Groups,Norway West,0,0,0%
+Dedicated Cores,Norway West,0,0,0%
+Dedicated Container Groups,Norway West,0,100,0%
+Dedicated Cores,Norway West,0,500,0%
+Groupes de conteneurs,Poland Central,0,100,0%
+Standard Cores,Poland Central,0,500,0%
+Standard Spot Cores,Poland Central,0,0,0%
+Standard K80 Cores,Poland Central,0,48,0%
+Standard P100 Cores,Poland Central,0,0,0%
+Standard V100 Cores,Poland Central,0,0,0%
+Dedicated Container Groups,Poland Central,0,0,0%
+Dedicated Cores,Poland Central,0,0,0%
+Dedicated Container Groups,Poland Central,0,100,0%
+Dedicated Cores,Poland Central,0,500,0%
+Groupes de conteneurs,Qatar Central,0,100,0%
+Standard Cores,Qatar Central,0,500,0%
+Standard Spot Cores,Qatar Central,0,0,0%
+Standard K80 Cores,Qatar Central,0,48,0%
+Standard P100 Cores,Qatar Central,0,0,0%
+Standard V100 Cores,Qatar Central,0,0,0%
+Dedicated Container Groups,Qatar Central,0,0,0%
+Dedicated Cores,Qatar Central,0,0,0%
+Dedicated Container Groups,Qatar Central,0,100,0%
+Dedicated Cores,Qatar Central,0,500,0%
+Groupes de conteneurs,South Africa North,0,100,0%
+Standard Cores,South Africa North,0,500,0%
+Standard Spot Cores,South Africa North,0,0,0%
+Standard K80 Cores,South Africa North,0,48,0%
+Standard P100 Cores,South Africa North,0,0,0%
+Standard V100 Cores,South Africa North,0,0,0%
+Dedicated Container Groups,South Africa North,0,0,0%
+Dedicated Cores,South Africa North,0,0,0%
+Dedicated Container Groups,South Africa North,0,100,0%
+Dedicated Cores,South Africa North,0,500,0%
+Groupes de conteneurs,South Africa West,0,100,0%
+Standard Cores,South Africa West,0,500,0%
+Standard Spot Cores,South Africa West,0,0,0%
+Standard K80 Cores,South Africa West,0,48,0%
+Standard P100 Cores,South Africa West,0,0,0%
+Standard V100 Cores,South Africa West,0,0,0%
+Dedicated Container Groups,South Africa West,0,0,0%
+Dedicated Cores,South Africa West,0,0,0%
+Dedicated Container Groups,South Africa West,0,100,0%
+Dedicated Cores,South Africa West,0,500,0%
+Groupes de conteneurs,South Central US,0,100,0%
+Standard Cores,South Central US,0,500,0%
+Standard Spot Cores,South Central US,0,0,0%
+Standard K80 Cores,South Central US,0,48,0%
+Standard P100 Cores,South Central US,0,0,0%
+Standard V100 Cores,South Central US,0,0,0%
+Dedicated Container Groups,South Central US,0,0,0%
+Dedicated Cores,South Central US,0,0,0%
+Dedicated Container Groups,South Central US,0,100,0%
+Dedicated Cores,South Central US,0,500,0%
+Groupes de conteneurs,South India,0,100,0%
+Standard Cores,South India,0,500,0%
+Standard Spot Cores,South India,0,0,0%
+Standard K80 Cores,South India,0,48,0%
+Standard P100 Cores,South India,0,0,0%
+Standard V100 Cores,South India,0,0,0%
+Dedicated Container Groups,South India,0,0,0%
+Dedicated Cores,South India,0,0,0%
+Dedicated Container Groups,South India,0,100,0%
+Dedicated Cores,South India,0,500,0%
+Groupes de conteneurs,Southeast Asia,0,100,0%
+Standard Cores,Southeast Asia,0,500,0%
+Standard Spot Cores,Southeast Asia,0,0,0%
+Standard K80 Cores,Southeast Asia,0,48,0%
+Standard P100 Cores,Southeast Asia,0,0,0%
+Standard V100 Cores,Southeast Asia,0,0,0%
+Dedicated Container Groups,Southeast Asia,0,0,0%
+Dedicated Cores,Southeast Asia,0,0,0%
+Dedicated Container Groups,Southeast Asia,0,100,0%
+Dedicated Cores,Southeast Asia,0,500,0%
+Groupes de conteneurs,Spain Central,0,100,0%
+Standard Cores,Spain Central,0,500,0%
+Standard Spot Cores,Spain Central,0,0,0%
+Standard K80 Cores,Spain Central,0,48,0%
+Standard P100 Cores,Spain Central,0,0,0%
+Standard V100 Cores,Spain Central,0,0,0%
+Dedicated Container Groups,Spain Central,0,0,0%
+Dedicated Cores,Spain Central,0,0,0%
+Dedicated Container Groups,Spain Central,0,100,0%
+Dedicated Cores,Spain Central,0,500,0%
+Groupes de conteneurs,Sweden Central,0,100,0%
+Standard Cores,Sweden Central,0,500,0%
+Standard Spot Cores,Sweden Central,0,0,0%
+Standard K80 Cores,Sweden Central,0,48,0%
+Standard P100 Cores,Sweden Central,0,0,0%
+Standard V100 Cores,Sweden Central,0,0,0%
+Dedicated Container Groups,Sweden Central,0,0,0%
+Dedicated Cores,Sweden Central,0,0,0%
+Dedicated Container Groups,Sweden Central,0,100,0%
+Dedicated Cores,Sweden Central,0,500,0%
+Groupes de conteneurs,Switzerland North,0,100,0%
+Standard Cores,Switzerland North,0,500,0%
+Standard Spot Cores,Switzerland North,0,0,0%
+Standard K80 Cores,Switzerland North,0,48,0%
+Standard P100 Cores,Switzerland North,0,0,0%
+Standard V100 Cores,Switzerland North,0,0,0%
+Dedicated Container Groups,Switzerland North,0,0,0%
+Dedicated Cores,Switzerland North,0,0,0%
+Dedicated Container Groups,Switzerland North,0,100,0%
+Dedicated Cores,Switzerland North,0,500,0%
+Groupes de conteneurs,Switzerland West,0,100,0%
+Standard Cores,Switzerland West,0,500,0%
+Standard Spot Cores,Switzerland West,0,0,0%
+Standard K80 Cores,Switzerland West,0,48,0%
+Standard P100 Cores,Switzerland West,0,0,0%
+Standard V100 Cores,Switzerland West,0,0,0%
+Dedicated Container Groups,Switzerland West,0,0,0%
+Dedicated Cores,Switzerland West,0,0,0%
+Dedicated Container Groups,Switzerland West,0,100,0%
+Dedicated Cores,Switzerland West,0,500,0%
+Groupes de conteneurs,UAE Central,0,100,0%
+Standard Cores,UAE Central,0,500,0%
+Standard Spot Cores,UAE Central,0,0,0%
+Standard K80 Cores,UAE Central,0,48,0%
+Standard P100 Cores,UAE Central,0,0,0%
+Standard V100 Cores,UAE Central,0,0,0%
+Dedicated Container Groups,UAE Central,0,0,0%
+Dedicated Cores,UAE Central,0,0,0%
+Dedicated Container Groups,UAE Central,0,100,0%
+Dedicated Cores,UAE Central,0,500,0%
+Groupes de conteneurs,UAE North,0,100,0%
+Standard Cores,UAE North,0,500,0%
+Standard Spot Cores,UAE North,0,0,0%
+Standard K80 Cores,UAE North,0,48,0%
+Standard P100 Cores,UAE North,0,0,0%
+Standard V100 Cores,UAE North,0,0,0%
+Dedicated Container Groups,UAE North,0,0,0%
+Dedicated Cores,UAE North,0,0,0%
+Dedicated Container Groups,UAE North,0,100,0%
+Dedicated Cores,UAE North,0,500,0%
+Groupes de conteneurs,UK South,0,100,0%
+Standard Cores,UK South,0,500,0%
+Standard Spot Cores,UK South,0,0,0%
+Standard K80 Cores,UK South,0,48,0%
+Standard P100 Cores,UK South,0,0,0%
+Standard V100 Cores,UK South,0,0,0%
+Dedicated Container Groups,UK South,0,0,0%
+Dedicated Cores,UK South,0,0,0%
+Dedicated Container Groups,UK South,0,100,0%
+Dedicated Cores,UK South,0,500,0%
+Groupes de conteneurs,UK West,0,100,0%
+Standard Cores,UK West,0,500,0%
+Standard Spot Cores,UK West,0,0,0%
+Standard K80 Cores,UK West,0,48,0%
+Standard P100 Cores,UK West,0,0,0%
+Standard V100 Cores,UK West,0,0,0%
+Dedicated Container Groups,UK West,0,0,0%
+Dedicated Cores,UK West,0,0,0%
+Dedicated Container Groups,UK West,0,100,0%
+Dedicated Cores,UK West,0,500,0%
+Groupes de conteneurs,West Central US,0,100,0%
+Standard Cores,West Central US,0,500,0%
+Standard Spot Cores,West Central US,0,0,0%
+Standard K80 Cores,West Central US,0,48,0%
+Standard P100 Cores,West Central US,0,0,0%
+Standard V100 Cores,West Central US,0,0,0%
+Dedicated Container Groups,West Central US,0,0,0%
+Dedicated Cores,West Central US,0,0,0%
+Dedicated Container Groups,West Central US,0,100,0%
+Dedicated Cores,West Central US,0,500,0%
+Groupes de conteneurs,West Europe,0,100,0%
+Standard Cores,West Europe,0,500,0%
+Standard Spot Cores,West Europe,0,0,0%
+Standard K80 Cores,West Europe,0,48,0%
+Standard P100 Cores,West Europe,0,0,0%
+Standard V100 Cores,West Europe,0,0,0%
+Dedicated Container Groups,West Europe,0,0,0%
+Dedicated Cores,West Europe,0,0,0%
+Dedicated Container Groups,West Europe,0,100,0%
+Dedicated Cores,West Europe,0,500,0%
+Groupes de conteneurs,West India,0,100,0%
+Standard Cores,West India,0,500,0%
+Standard Spot Cores,West India,0,0,0%
+Standard K80 Cores,West India,0,48,0%
+Standard P100 Cores,West India,0,0,0%
+Standard V100 Cores,West India,0,0,0%
+Dedicated Container Groups,West India,0,0,0%
+Dedicated Cores,West India,0,0,0%
+Dedicated Container Groups,West India,0,100,0%
+Dedicated Cores,West India,0,500,0%
+Groupes de conteneurs,West US,0,100,0%
+Standard Cores,West US,0,500,0%
+Standard Spot Cores,West US,0,0,0%
+Standard K80 Cores,West US,0,48,0%
+Standard P100 Cores,West US,0,0,0%
+Standard V100 Cores,West US,0,0,0%
+Dedicated Container Groups,West US,0,0,0%
+Dedicated Cores,West US,0,0,0%
+Dedicated Container Groups,West US,0,100,0%
+Dedicated Cores,West US,0,500,0%
+Groupes de conteneurs,West US 2,0,100,0%
+Standard Cores,West US 2,0,500,0%
+Standard Spot Cores,West US 2,0,0,0%
+Standard K80 Cores,West US 2,0,48,0%
+Standard P100 Cores,West US 2,0,0,0%
+Standard V100 Cores,West US 2,0,0,0%
+Dedicated Container Groups,West US 2,0,0,0%
+Dedicated Cores,West US 2,0,0,0%
+Dedicated Container Groups,West US 2,0,100,0%
+Dedicated Cores,West US 2,0,500,0%
+Groupes de conteneurs,West US 3,0,100,0%
+Standard Cores,West US 3,0,500,0%
+Standard Spot Cores,West US 3,0,0,0%
+Standard K80 Cores,West US 3,0,48,0%
+Standard P100 Cores,West US 3,0,0,0%
+Standard V100 Cores,West US 3,0,0,0%
+Dedicated Container Groups,West US 3,0,0,0%
+Dedicated Cores,West US 3,0,0,0%
+Dedicated Container Groups,West US 3,0,100,0%
+Dedicated Cores,West US 3,0,500,0%

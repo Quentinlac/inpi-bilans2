@@ -31,8 +31,6 @@ services:
       # Mount model cache to prevent re-downloading
       - paddle_models:/root/.paddleocr
       - paddle_cache:/root/.cache
-      # Mount src directory to write OCR text files to host
-      - ./src:/app/src
 
     restart: unless-stopped
 
@@ -40,9 +38,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 8G  # Increased memory for better caching
+          memory: 40G  # Increased memory for better caching (40GB per container)
         reservations:
-          memory: 2G
+          memory: 8G  # Minimum guarantee per container
 
     logging:
       driver: "json-file"

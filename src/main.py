@@ -9,7 +9,7 @@ from config import Config
 
 # Configure logging
 logging.basicConfig(
-    level=logging.DEBUG,  # Enable debug logs to see OCR structure issues
+    level=logging.INFO,  # Production logging level
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(sys.stdout)

@@ -32,7 +32,7 @@ RUN pip install --no-cache-dir requests psutil==5.9.8  # Required dependencies f
 RUN paddleocr install_hpi_deps cpu || echo "HPI installation failed, continuing without HPI optimization"
 
 # Download OCR models during build to cache them (PaddleOCR 3.2.0)
-RUN python -c "from paddleocr import PaddleOCR; ocr = PaddleOCR(lang='fr'); print('Models downloaded')"
+RUN python -c "from paddleocr import PaddleOCR; ocr = PaddleOCR(lang='fr', enable_mkldnn=True); print('Models downloaded')"
 
 # Copy application code
 COPY src/ ./src/

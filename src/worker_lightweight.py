@@ -61,18 +61,31 @@ class LightweightOCRWorker:
         logger.info(f"Worker {self.worker_id}: Processing {siren}")
 
         # Download PDF
+        download_start = datetime.now()
         pdf_path = self.s3.download_pdf(s3_key)
+        download_time = (datetime.now() - download_start).total_seconds()
+        logger.info(f"Worker {self.worker_id}: PDF download took {download_time:.2f}s")
 
         try:
-            # Convert to images (lower DPI for speed)
-            images = convert_from_path(pdf_path, dpi=150, fmt='PNG', thread_count=2, use_pdftocairo=True)
+            # Convert to images (optimized for speed and quality)
+            convert_start = datetime.now()
+            images = convert_from_path(
+                pdf_path,
+                dpi=200,  # Higher DPI for better OCR accuracy
+                fmt='JPEG',  # JPEG is faster than PNG
+                thread_count=4,  # Use more threads for parallel conversion
+                use_pdftocairo=True,
+                jpegopt={'quality': 90, 'optimize': True}  # JPEG optimization
+            )
+            convert_time = (datetime.now() - convert_start).total_seconds()
             num_pages = len(images)
-            logger.info(f"Worker {self.worker_id}: {num_pages} pages to process")
+            logger.info(f"Worker {self.worker_id}: PDF->Image conversion took {convert_time:.2f}s for {num_pages} pages")
 
             # Collect ALL results first
+            ocr_start = datetime.now()
             all_pages_data = []
             all_ocr_raw_results = []  # Store raw OCR results for debug file
-            batch_size = 3  # Small batch to avoid OOM
+            batch_size = 30  # Large batch size with 40GB memory available
 
             # Process in batches
             for batch_start in range(0, num_pages, batch_size):
@@ -94,11 +107,10 @@ class LightweightOCRWorker:
             # Clear images from memory
             del images
             gc.collect()
+            ocr_time = (datetime.now() - ocr_start).total_seconds()
+            logger.info(f"Worker {self.worker_id}: OCR processing took {ocr_time:.2f}s")
 
-            # Write debug file AFTER all OCR is done
-            self.save_debug_file(siren, s3_key, num_pages, all_ocr_raw_results)
-
-            # Save raw text output for analysis
+            # Generate production output
             txt_filename = self.save_raw_text_output(siren, all_pages_data, num_pages)
 
             # Upload the text file to S3 instead of JSON
@@ -204,9 +216,9 @@ class LightweightOCRWorker:
         return batch_results
 
     def save_raw_text_output(self, siren, all_pages_data, num_pages):
-        """Save raw OCR output for ALL pages - text and tables only, no coordinates"""
+        """Generate OCR output for ALL pages - text and tables only"""
         try:
-            filename = f'/app/src/ocr_raw_{siren}.txt'
+            filename = f'/tmp/ocr_{siren}.txt'
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write(f"=== RAW OCR OUTPUT FOR {siren} ===\n")
                 f.write(f"Total Pages: {num_pages}\n")

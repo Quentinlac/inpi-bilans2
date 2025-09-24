@@ -1,0 +1,53 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs and debug files
+*.log
+src/ocr_*.txt
+src/ocr_raw_*.txt
+
+# Documentation
+*.md
+LICENSE
+docs/
+
+# Environment variables
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Test files
+tests/
+*.test
+*.spec
+
+# Temporary files
+tmp/
+temp/
