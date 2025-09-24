@@ -26,12 +26,20 @@ class LightweightOCRWorker:
         self.worker_id = worker_id
         self.db = DatabaseHandler()
         self.s3 = S3Handler()
+        # Re-enabled: TableExtractor now works with PaddleOCR v2 format
         self.table_extractor = TableExtractor(worker_id)
 
-        # Initialize OCR once (PaddleOCR 3.2.0 with minimal params)
+        # Initialize OCR with PaddleOCR 2.8 - simpler and more stable
+        # Uses mobile models by default for CPU performance
         self.ocr = PaddleOCR(
-            lang='fr',
-            use_angle_cls=True
+            use_angle_cls=False,  # Disable angle classification for speed
+            lang='en',  # English model is more stable with v2
+            use_gpu=False,  # Explicitly use CPU
+            enable_mkldnn=True,  # Enable Intel MKL-DNN optimization
+            cpu_threads=4,  # Limit CPU threads per worker
+            use_tensorrt=False,  # Disable TensorRT (GPU only)
+            det_db_score_mode='fast',  # Fast detection mode
+            show_log=False  # Reduce logging noise
         )
         logger.info(f"Worker {worker_id}: OCR initialized")
 
@@ -67,39 +75,45 @@ class LightweightOCRWorker:
         logger.info(f"Worker {self.worker_id}: PDF download took {download_time:.2f}s")
 
         try:
-            # Convert to images (optimized for speed and quality)
+            # Convert PDF to images
             convert_start = datetime.now()
-            images = convert_from_path(
-                pdf_path,
-                dpi=200,  # Higher DPI for better OCR accuracy
-                fmt='JPEG',  # JPEG is faster than PNG
-                thread_count=4,  # Use more threads for parallel conversion
-                use_pdftocairo=True,
-                jpegopt={'quality': 90, 'optimize': True}  # JPEG optimization
-            )
-            convert_time = (datetime.now() - convert_start).total_seconds()
+            images = convert_from_path(pdf_path, dpi=150, thread_count=4)
             num_pages = len(images)
-            logger.info(f"Worker {self.worker_id}: PDF->Image conversion took {convert_time:.2f}s for {num_pages} pages")
+            convert_time = (datetime.now() - convert_start).total_seconds()
+            logger.info(f"Worker {self.worker_id}: PDF conversion took {convert_time:.2f}s for {num_pages} pages")
 
             # Collect ALL results first
             ocr_start = datetime.now()
             all_pages_data = []
-            all_ocr_raw_results = []  # Store raw OCR results for debug file
+            all_ocr_raw_results = []  # Store raw OCR results for JSON file
             batch_size = 30  # Large batch size with 40GB memory available
+
+            import gc  # Import gc at the beginning
+
+            # Track timing for OCR vs extraction
+            total_ocr_time = 0
+            total_extraction_time = 0
 
             # Process in batches
             for batch_start in range(0, num_pages, batch_size):
                 batch_end = min(batch_start + batch_size, num_pages)
-                batch_results = self.process_batch(images[batch_start:batch_end], batch_start)
+                batch_results, batch_ocr_time, batch_extraction_time = self.process_batch(images[batch_start:batch_end], batch_start)
+
+                total_ocr_time += batch_ocr_time
+                total_extraction_time += batch_extraction_time
 
                 # Store results
                 for page_num, (page_data, raw_result) in enumerate(batch_results, batch_start + 1):
                     all_pages_data.append(page_data)
                     if raw_result:
-                        all_ocr_raw_results.append((page_num, raw_result))
+                        # Convert numpy arrays to lists for JSON serialization
+                        serializable_result = self._make_json_serializable(raw_result)
+                        all_ocr_raw_results.append({
+                            "page": page_num,
+                            "ocr_result": serializable_result
+                        })
 
                 # Free memory after each batch
-                import gc
                 gc.collect()
 
                 logger.info(f"Worker {self.worker_id}: Processed pages {batch_start+1}-{batch_end}")
@@ -107,30 +121,86 @@ class LightweightOCRWorker:
             # Clear images from memory
             del images
             gc.collect()
-            ocr_time = (datetime.now() - ocr_start).total_seconds()
-            logger.info(f"Worker {self.worker_id}: OCR processing took {ocr_time:.2f}s")
 
-            # Generate production output
-            txt_filename = self.save_raw_text_output(siren, all_pages_data, num_pages)
+            total_processing_time = (datetime.now() - ocr_start).total_seconds()
+            logger.info(f"Worker {self.worker_id}: Total processing took {total_processing_time:.2f}s (OCR: {total_ocr_time:.2f}s, Extraction: {total_extraction_time:.2f}s)")
 
-            # Upload the text file to S3 instead of JSON
-            output_key = f"structured_output/{siren[:3]}/{siren}.txt"
+            # Create initial timing info
+            timing_info = {
+                'download': f"{download_time:.2f}",
+                'conversion': f"{convert_time:.2f}",
+                'ocr': f"{total_ocr_time:.2f}",
+                'extraction': f"{total_extraction_time:.2f}",
+                'total_processing': f"{total_processing_time:.2f}",
+                'output_generation': 'pending',
+                'upload': 'pending',
+                'total': 'pending'
+            }
 
-            # Generate the full S3 URL
-            s3_url = f"https://{Config.S3_BUCKET}.s3.{Config.S3_REGION}.amazonaws.com/{output_key}"
+            # Generate production output with initial timing
+            output_gen_start = datetime.now()
+            txt_filename = self.save_raw_text_output(siren, all_pages_data, num_pages, timing_info)
+            output_gen_time = (datetime.now() - output_gen_start).total_seconds()
+            timing_info['output_generation'] = f"{output_gen_time:.2f}"
 
-            # Read the text file and upload it
+            # Prepare S3 keys for both text and JSON outputs
+            text_output_key = f"structured_output/{siren[:3]}/{siren}.txt"
+            json_output_key = f"structured_output/{siren[:3]}/{siren}_raw_ocr.json"
+            text_s3_url = f"https://{Config.S3_BUCKET}.s3.{Config.S3_REGION}.amazonaws.com/{text_output_key}"
+            json_s3_url = f"https://{Config.S3_BUCKET}.s3.{Config.S3_REGION}.amazonaws.com/{json_output_key}"
+
             try:
+                # First, update the local file with output generation time
+                timing_info['output_generation'] = f"{output_gen_time:.2f}"
+                self.update_timing_in_file(txt_filename, timing_info)
+
+                # Read the updated file for upload
                 with open(txt_filename, 'r', encoding='utf-8') as f:
                     txt_content = f.read()
 
-                if self.s3.upload_text(txt_content, output_key):
-                    processing_time_ms = int((datetime.now() - start_time).total_seconds() * 1000)
-                    # Pass the full S3 URL to the database
-                    self.db.mark_completed(doc['id'], s3_url, processing_time_ms, num_pages, len(txt_content))
-                    logger.info(f"Worker {self.worker_id}: Completed {siren} - {num_pages} pages - Uploaded to {s3_url}")
+                # Upload both text and JSON files
+                upload_start = datetime.now()
+
+                # Upload text file
+                text_uploaded = self.s3.upload_text(txt_content, text_output_key)
+
+                # Create JSON with raw OCR data
+                raw_ocr_data = {
+                    "siren": siren,
+                    "num_pages": num_pages,
+                    "processing_timestamp": datetime.now().isoformat(),
+                    "timing_info": timing_info,
+                    "raw_ocr_results": all_ocr_raw_results  # Raw OCR results only
+                }
+
+                json_content = json.dumps(raw_ocr_data, indent=2, ensure_ascii=False)
+                json_uploaded = self.s3.upload_text(json_content, json_output_key)
+
+                if text_uploaded and json_uploaded:
+                    upload_time = (datetime.now() - upload_start).total_seconds()
+                    total_time = (datetime.now() - start_time).total_seconds()
+
+                    # Final timing info
+                    timing_info['upload'] = f"{upload_time:.2f}"
+                    timing_info['total'] = f"{total_time:.2f}"
+
+                    # Update text file with final timing
+                    self.update_timing_in_file(txt_filename, timing_info)
+                    with open(txt_filename, 'r', encoding='utf-8') as f:
+                        final_txt_content = f.read()
+                    self.s3.upload_text(final_txt_content, text_output_key)
+
+                    # Update JSON with final timing
+                    raw_ocr_data['timing_info'] = timing_info
+                    json_content = json.dumps(raw_ocr_data, indent=2, ensure_ascii=False)
+                    self.s3.upload_text(json_content, json_output_key)
+
+                    processing_time_ms = int(total_time * 1000)
+                    # Update database with text URL in ocr_s3_path and JSON URL in ocr_text_file_path
+                    self.db.mark_completed(doc['id'], text_s3_url, json_s3_url, processing_time_ms, num_pages, len(final_txt_content))
+                    logger.info(f"Worker {self.worker_id}: Completed {siren} - {num_pages} pages - Text in ocr_s3_path, JSON in ocr_text_file_path - Total: {total_time:.2f}s (Download: {download_time:.2f}s, Convert: {convert_time:.2f}s, OCR: {total_ocr_time:.2f}s, Extract: {total_extraction_time:.2f}s, Upload: {upload_time:.2f}s)")
                 else:
-                    self.db.mark_failed(doc['id'], "Failed to upload text file")
+                    self.db.mark_failed(doc['id'], "Failed to upload JSON file")
             except Exception as e:
                 logger.error(f"Worker {self.worker_id}: Failed to upload text file: {e}")
                 self.db.mark_failed(doc['id'], f"Upload error: {str(e)}")
@@ -143,6 +213,8 @@ class LightweightOCRWorker:
     def process_batch(self, images, batch_start_idx):
         """Process a batch of images"""
         batch_results = []
+        batch_ocr_time = 0
+        batch_extraction_time = 0
 
         for i, image in enumerate(images):
             page_num = batch_start_idx + i + 1
@@ -154,7 +226,11 @@ class LightweightOCRWorker:
 
             try:
                 # Run OCR
+                ocr_start = datetime.now()
                 ocr_result = self.ocr.ocr(tmp_file.name)
+                ocr_end = datetime.now()
+                page_ocr_time = (ocr_end - ocr_start).total_seconds()
+                batch_ocr_time += page_ocr_time
 
                 # Parse result
                 page_text = []
@@ -196,8 +272,12 @@ class LightweightOCRWorker:
                                             'confidence': confidence
                                         })
 
-                # Extract tables from text blocks
+                # Table extraction - works with PaddleOCR v2 format conversion
+                extraction_start = datetime.now()
                 tables = self.table_extractor.extract_tables_from_page(text_blocks, page_num)
+                extraction_end = datetime.now()
+                page_extraction_time = (extraction_end - extraction_start).total_seconds()
+                batch_extraction_time += page_extraction_time
 
                 page_data = {
                     "page": page_num,
@@ -213,15 +293,29 @@ class LightweightOCRWorker:
                 if os.path.exists(tmp_file.name):
                     os.unlink(tmp_file.name)
 
-        return batch_results
+        return batch_results, batch_ocr_time, batch_extraction_time
 
-    def save_raw_text_output(self, siren, all_pages_data, num_pages):
+    def save_raw_text_output(self, siren, all_pages_data, num_pages, timing_info=None):
         """Generate OCR output for ALL pages - text and tables only"""
         try:
             filename = f'/tmp/ocr_{siren}.txt'
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write(f"=== RAW OCR OUTPUT FOR {siren} ===\n")
                 f.write(f"Total Pages: {num_pages}\n")
+
+                # Add timing breakdown if available
+                if timing_info:
+                    f.write("\n=== TIMING BREAKDOWN ===\n")
+                    f.write(f"1. PDF Download from S3: {timing_info.get('download', 'N/A')} seconds\n")
+                    f.write(f"2. PDF to Image Conversion: {timing_info.get('conversion', 'N/A')} seconds\n")
+                    f.write(f"3. OCR Processing (text recognition): {timing_info.get('ocr', 'N/A')} seconds\n")
+                    f.write(f"4. Table Extraction (structure analysis): {timing_info.get('extraction', 'N/A')} seconds\n")
+                    f.write(f"5. Output File Generation: {timing_info.get('output_generation', 'N/A')} seconds\n")
+                    f.write(f"6. S3 Upload: {timing_info.get('upload', 'N/A')} seconds\n")
+                    f.write(f"\n--- SUBTOTALS ---\n")
+                    f.write(f"Total Processing (OCR + Extraction): {timing_info.get('total_processing', 'N/A')} seconds\n")
+                    f.write(f"Total Time (entire pipeline): {timing_info.get('total', 'N/A')} seconds\n")
+
                 f.write("="*80 + "\n\n")
 
                 # Write all pages' data
@@ -335,6 +429,71 @@ class LightweightOCRWorker:
             logger.info(f"Worker {self.worker_id}: Debug file saved to {filename}")
         except Exception as e:
             logger.warning(f"Worker {self.worker_id}: Could not save debug file: {e}")
+
+    def _make_json_serializable(self, obj):
+        """Convert numpy arrays and other non-serializable objects to JSON-serializable format"""
+        import numpy as np
+
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, dict):
+            return {k: self._make_json_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [self._make_json_serializable(item) for item in obj]
+        elif isinstance(obj, tuple):
+            return [self._make_json_serializable(item) for item in obj]
+        else:
+            return obj
+
+    def update_timing_in_file(self, filename, timing_info):
+        """Update the timing section in an already written file"""
+        try:
+            # Read the existing file
+            with open(filename, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+
+            # Find and replace the timing section
+            timing_section_start = -1
+            timing_section_end = -1
+            for i, line in enumerate(lines):
+                if '=== TIMING BREAKDOWN ===' in line:
+                    timing_section_start = i
+                elif timing_section_start > -1 and '===' in line and i > timing_section_start:
+                    timing_section_end = i
+                    break
+
+            if timing_section_start > -1:
+                # Create new timing section
+                new_timing_lines = [
+                    "\n=== TIMING BREAKDOWN ===\n",
+                    f"1. PDF Download from S3: {timing_info.get('download', 'N/A')} seconds\n",
+                    f"2. PDF to Image Conversion: {timing_info.get('conversion', 'N/A')} seconds\n",
+                    f"3. OCR Processing (text recognition): {timing_info.get('ocr', 'N/A')} seconds\n",
+                    f"4. Table Extraction (structure analysis): {timing_info.get('extraction', 'N/A')} seconds\n",
+                    f"5. Output File Generation: {timing_info.get('output_generation', 'N/A')} seconds\n",
+                    f"6. S3 Upload: {timing_info.get('upload', 'N/A')} seconds\n",
+                    f"\n--- SUBTOTALS ---\n",
+                    f"Total Processing (OCR + Extraction): {timing_info.get('total_processing', 'N/A')} seconds\n",
+                    f"Total Time (entire pipeline): {timing_info.get('total', 'N/A')} seconds\n",
+                    "\n"
+                ]
+
+                # Replace the old timing section
+                if timing_section_end > -1:
+                    lines[timing_section_start:timing_section_end] = new_timing_lines
+                else:
+                    # If we didn't find the end, just replace from start to next section
+                    lines[timing_section_start:timing_section_start+10] = new_timing_lines
+
+                # Write back to file
+                with open(filename, 'w', encoding='utf-8') as f:
+                    f.writelines(lines)
+        except Exception as e:
+            logger.warning(f"Could not update timing in file: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

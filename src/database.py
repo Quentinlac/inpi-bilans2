@@ -50,7 +50,8 @@ class DatabaseHandler:
             logging.error(f"Database error: {e}")
             return None
 
-    def mark_completed(self, doc_id, s3_uri, https_url, text_length, processing_time_ms):
+    def mark_completed(self, doc_id, text_s3_url, json_s3_url, processing_time_ms, num_pages, text_length):
+        """Mark completed with text file in ocr_s3_path and JSON in ocr_text_file_path"""
         try:
             with self.conn.cursor() as cur:
                 cur.execute("""
@@ -61,9 +62,9 @@ class DatabaseHandler:
                         ocr_s3_path = %s,
                         ocr_text_file_path = %s,
                         ocr_text_length = %s,
-                        ocr_engine = 'PPStructureV3'
+                        ocr_engine = 'PaddleOCR-v2'
                     WHERE id = %s
-                """, (processing_time_ms, s3_uri, https_url, text_length, doc_id))
+                """, (processing_time_ms, text_s3_url, json_s3_url, text_length, doc_id))
                 self.conn.commit()
         except Exception as e:
             self.conn.rollback()
@@ -71,6 +72,8 @@ class DatabaseHandler:
             logging.error(f"Database update error for doc_id {doc_id}: {e}")
             logging.error(f"Full traceback: {traceback.format_exc()}")
             raise
+
+    # REMOVED - Using single mark_completed method that stores JSON in ocr_text_file_path
 
     def mark_failed(self, doc_id, error_message):
         try:

@@ -56,11 +56,11 @@ def main():
     num_workers = Config.WORKERS_PER_CONTAINER
     logging.info(f"Starting {num_workers} lightweight OCR workers...")
     logging.info("Configuration:")
-    logging.info(f"  - OCR Engine: PaddleOCR 3.2.0")
+    logging.info(f"  - OCR Engine: PaddleOCR 2.8.1")
     logging.info(f"  - Processing Mode: Lightweight (no PPStructure)")
     logging.info(f"  - Workers per container: {num_workers}")
     logging.info(f"  - CPU threads per worker: 4")
-    logging.info(f"  - Memory limit per worker: ~2GB")
+    logging.info(f"  - Memory limit per worker: ~20GB (40GB per container / 2 workers)")
 
     # Start worker processes
     processes = []
